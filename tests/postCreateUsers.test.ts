@@ -40,24 +40,25 @@ test.describe("API-тесты на создание клиентов", async () 
     });
 
     test("[positive] создать клиента без пароля", async ({ request }) => {
+        const { data: { password, ...dataWithoutPassword } } = mockData;
+
+        const mockDataWithoutPassword = {
+            ...mockData,
+            data: dataWithoutPassword
+        };
+
         const response = await request.post(
             `${api.urls.base_url_api}${api.paths.users}`,
             {
                 headers: {
                     'Authorization': `${api.tokens.test}`
                 },
-                data: {
-                    ...mockData,
-                    data: {
-                        ...mockData.data,
-                        password: ''
-                    }
-                }
+                data: mockDataWithoutPassword
             });
         expect(response.status()).toEqual(200);
     });
 
-    test("[positive] создать клиента с опытом в фитнесе 1-2 года", async ({ request }) => {
+    test("[positive] создать клиента c опытом в фитнесе 1-2 года", async ({ request }) => {
         const response = await request.post(
             `${api.urls.base_url_api}${api.paths.users}`,
             {
@@ -76,7 +77,7 @@ test.describe("API-тесты на создание клиентов", async () 
     });
 
 
-    test("[positive] создать клиента с опытом в фитнесе 15 лет", async ({ request }) => {
+    test("[negative] создать клиента c опытом в фитнесе 15 лет", async ({ request }) => {
         const response = await request.post(
             `${api.urls.base_url_api}${api.paths.users}`,
             {
