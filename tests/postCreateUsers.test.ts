@@ -40,7 +40,7 @@ test.describe("API-тесты на создание клиентов", async () 
     test("[positive] создать клиента", async ({ request }) => {
 
         const response = await request.post(url, { headers, data: mockData });
-
+      
         expect(response.status()).toEqual(200);
     });
 
@@ -66,7 +66,6 @@ test.describe("API-тесты на создание клиентов", async () 
         };
 
         const response = await request.post(url, { headers, data });
-
         expect(response.status()).toEqual(200);
     });
 
@@ -80,7 +79,6 @@ test.describe("API-тесты на создание клиентов", async () 
         };
 
         const response = await request.post(url, { headers, data });
-
         expect(response.status()).toEqual(200);
     });
 
@@ -164,7 +162,6 @@ test.describe("API-тесты на создание клиентов", async () 
         };
 
         const response = await request.post(url, { headers, data });
-
         expect(response.status()).toEqual(400);
     });
 });
