@@ -2,6 +2,16 @@ import { expect, test } from "@playwright/test";
 import api from '../api.json';
 import { getRandomEmail, getRandomPhoneNumber } from "../utils/random";
 
+const sport_experiences = [
+    "0-6 месяцев",
+    "Нет опыта",
+    "6-12 месяцев",
+    "1-2 года",
+    "2-3 года",
+    "3-5 лет",
+    "Больше 5 лет",
+];
+
 const mockData = {
     session_id: "549297f8-e38a-47cd-915e-2a1859102539",
     request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
@@ -37,12 +47,15 @@ test.describe("API-тесты на создание клиентов", async () 
         mockData.data.phone = getRandomPhoneNumber();
     });
 
-    test("[positive] создать клиента", async ({ request }) => {
+    sport_experiences.forEach(sport_experience => {
+        test(`[positive] создать клиента c опытом ${sport_experience}`, async ({ request }) => {
 
-        const response = await request.post(url, { headers, data: mockData });
-      
-        expect(response.status()).toEqual(200);
+            const response = await request.post(url, { headers, data: mockData });
+    
+            expect(response.status()).toEqual(200);
+        });
     });
+    
 
     test("[positive] создать клиента без пароля", async ({ request }) => {
         const { data: { password, ...dataWithoutPassword } } = mockData;
@@ -53,88 +66,6 @@ test.describe("API-тесты на создание клиентов", async () 
         };
 
         const response = await request.post(url, { headers, data: mockDataWithoutPassword });
-        expect(response.status()).toEqual(200);
-    });
-
-    test("[positive] создать клиента c опытом в фитнесе Нет опыта", async ({ request }) => {
-        const data = {
-            ...mockData,
-            data: {
-                ...mockData.data,
-                sport_experience: "Нет опыта"
-            }
-        };
-
-        const response = await request.post(url, { headers, data });
-        expect(response.status()).toEqual(200);
-    });
-
-    test("[positive] создать клиента c опытом в фитнесе 6-12 месяцев", async ({ request }) => {
-        const data = {
-            ...mockData,
-            data: {
-                ...mockData.data,
-                sport_experience: "6-12 месяцев"
-            }
-        };
-
-        const response = await request.post(url, { headers, data });
-        expect(response.status()).toEqual(200);
-    });
-
-    test("[positive] создать клиента c опытом в фитнесе 1-2 года", async ({ request }) => {
-        const data = {
-            ...mockData,
-            data: {
-                ...mockData.data,
-                sport_experience: "1-2 года"
-            }
-        };
-
-        const response = await request.post(url, { headers, data });
-
-        expect(response.status()).toEqual(200);
-    });
-
-    test("[positive] создать клиента c опытом в фитнесе 2-3 года", async ({ request }) => {
-        const data = {
-            ...mockData,
-            data: {
-                ...mockData.data,
-                sport_experience: "2-3 года"
-            }
-        };
-
-        const response = await request.post(url, { headers, data });
-
-        expect(response.status()).toEqual(200);
-    });
-
-    test("[positive] создать клиента c опытом в фитнесе 3-5 лет", async ({ request }) => {
-        const data = {
-            ...mockData,
-            data: {
-                ...mockData.data,
-                sport_experience: "3-5 лет"
-            }
-        };
-
-        const response = await request.post(url, { headers, data });
-
-        expect(response.status()).toEqual(200);
-    });
-
-    test("[positive] создать клиента c опытом в фитнесе Больше 5 лет", async ({ request }) => {
-        const data = {
-            ...mockData,
-            data: {
-                ...mockData.data,
-                sport_experience: "Больше 5 лет"
-            }
-        };
-
-        const response = await request.post(url, { headers, data });
-
         expect(response.status()).toEqual(200);
     });
 
@@ -162,6 +93,7 @@ test.describe("API-тесты на создание клиентов", async () 
         };
 
         const response = await request.post(url, { headers, data });
+
         expect(response.status()).toEqual(400);
     });
 });
