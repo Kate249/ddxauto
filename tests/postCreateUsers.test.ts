@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import api from '../api.json';
 import { getRandomEmail, getRandomPhoneNumber } from "../utils/random";
+import CreateUserRequests from "../requests/CreateUsers.requests";
 
 const sport_experiences = [
     "0-6 месяцев",
@@ -49,8 +50,16 @@ test.describe("API-тесты на создание клиентов", async () 
 
     sport_experiences.forEach(sport_experience => {
         test(`[positive] создать клиента c опытом ${sport_experience}`, async ({ request }) => {
+            const requestBody = {
+                ...mockData, 
+                data: {
+                    ...mockData.data,
+                    sport_experience
+                }
+            };
 
-            const response = await request.post(url, { headers, data: mockData });
+            const response = await new CreateUserRequests(request).postCreateUser(200, requestBody);
+            // const response = await request.post(url, { headers, data: mockData });
     
             expect(response.status()).toEqual(200);
         });
@@ -65,12 +74,13 @@ test.describe("API-тесты на создание клиентов", async () 
             data: dataWithoutPassword
         };
 
-        const response = await request.post(url, { headers, data: mockDataWithoutPassword });
+        const response = await new CreateUserRequests(request).postCreateUser(200, mockDataWithoutPassword);
+        // const response = await request.post(url, { headers, data: mockDataWithoutPassword });
         expect(response.status()).toEqual(200);
     });
 
     test("[positive] создать клиента c опытом в фитнесе не указан", async ({ request }) => {
-        const data = {
+        const requestBody = {
             ...mockData,
             data: {
                 ...mockData.data,
@@ -78,13 +88,14 @@ test.describe("API-тесты на создание клиентов", async () 
             }
         };
 
-        const response = await request.post(url, { headers, data });
+        const response = await new CreateUserRequests(request).postCreateUser(400, requestBody);
+        // const response = await request.post(url, { headers, data });
 
         expect(response.status()).toEqual(400);
     });
 
     test("[negative] создать клиента c опытом в фитнесе 15 лет", async ({ request }) => {
-        const data = {
+        const requestBody = {
             ...mockData,
             data: {
                 ...mockData.data,
@@ -92,7 +103,8 @@ test.describe("API-тесты на создание клиентов", async () 
             }
         };
 
-        const response = await request.post(url, { headers, data });
+        const response = await new CreateUserRequests(request).postCreateUser(400, requestBody);
+        // const response = await request.post(url, { headers, data });
 
         expect(response.status()).toEqual(400);
     });
