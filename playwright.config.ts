@@ -4,12 +4,18 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   use: {
-    headless: true,
+    trace: 'off',
     browserName: "chromium",
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
-    trace: "off"
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    headless: true
   },
+  testMatch: [
+    "tests/**/**.test.ts",
+  ],
+  testIgnore: [
+   "first.test.ts"
+  ],
   reporter: [["line"], ["json", { outputFile: "test-result.json" }],
   ['html', {
     open: "never",
