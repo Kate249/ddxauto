@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import api from '../api.json';
 import { getRandomEmail, getRandomPhoneNumber } from "../utils/random";
-import CreateUserRequests from "../requests/CreateUsers.requests";
+import UserRequests from "../requests/users.request";
 
 const sport_experiences = [
     "0-6 месяцев",
@@ -58,8 +58,7 @@ test.describe("API-тесты на создание клиентов", async () 
                 }
             };
 
-            const response = await new CreateUserRequests(request).postCreateUser(200, requestBody);
-            // const response = await request.post(url, { headers, data: mockData });
+            const response = await new UserRequests(request).postCreateUser(200, requestBody);
     
             expect(response.status()).toEqual(200);
         });
@@ -74,8 +73,7 @@ test.describe("API-тесты на создание клиентов", async () 
             data: dataWithoutPassword
         };
 
-        const response = await new CreateUserRequests(request).postCreateUser(200, mockDataWithoutPassword);
-        // const response = await request.post(url, { headers, data: mockDataWithoutPassword });
+        const response = await new UserRequests(request).postCreateUser(200, mockDataWithoutPassword);
         expect(response.status()).toEqual(200);
     });
 
@@ -88,8 +86,7 @@ test.describe("API-тесты на создание клиентов", async () 
             }
         };
 
-        const response = await new CreateUserRequests(request).postCreateUser(400, requestBody);
-        // const response = await request.post(url, { headers, data });
+        const response = await new UserRequests(request).postCreateUser(400, requestBody);
 
         expect(response.status()).toEqual(400);
     });
@@ -103,8 +100,7 @@ test.describe("API-тесты на создание клиентов", async () 
             }
         };
 
-        const response = await new CreateUserRequests(request).postCreateUser(400, requestBody);
-        // const response = await request.post(url, { headers, data });
+        const response = await new UserRequests(request).postCreateUser(400, requestBody);
 
         expect(response.status()).toEqual(400);
     });

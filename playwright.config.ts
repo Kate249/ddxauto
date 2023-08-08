@@ -3,12 +3,15 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
-  reporter: 'html',
   use: {
     trace: 'off',
+    browserName: "chromium",
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    headless: true
   },
   testMatch: [
-    "tests/**/**.test.ts"
+    "tests/**/**.test.ts",
   ],
   testIgnore: [
    "first.test.ts"
