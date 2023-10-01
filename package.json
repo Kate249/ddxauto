@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test tests/ -- workers 2",
+    "test-users": "npx playwright test tests/users/ -- workers 1",
+    "test-accessCards": "npx playwright test tests/accessCards/ -- workers 1",
+    "test-club": "npx playwright test tests/club/ -- workers 1",
+    "test-employees": "npx playwright test tests/employees/ -- workers 1",
+    "test-groupTraining": "npx playwright test tests/groupTraining/ -- workers 1",
+    "test-notes": "npx playwright test tests/notes/ -- workers 1",
+    "test-paymentPlans": "npx playwright test tests/notes/ -- workers 1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

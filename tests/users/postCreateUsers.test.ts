@@ -1,6 +1,12 @@
 import { expect, test } from "@playwright/test";
+<<<<<<< Updated upstream:tests/postCreateUsers.test.ts
 import api from '../api.json';
 import { getRandomEmail, getRandomPhoneNumber } from "../utils/random";
+=======
+import api from '../../api.json';
+import { getRandomEmail, getRandomPhoneNumber } from "../../utils/random";
+import UserRequests from "../../requests/users.request";
+>>>>>>> Stashed changes:tests/users/postCreateUsers.test.ts
 
 const sport_experiences = [
     "0-6 месяцев",

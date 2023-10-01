@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
-import api from '../api.json';
-import { getBaseParameters } from "../entities/baseParameters";
-import { log } from "../utils/logger";
+import api from '../../api.json';
+import { getBaseParameters } from "../../entities/baseParameters";
+import { log } from "../../utils/logger";
 
 const club_ids = [1, 2, 3, 4, 5];
 
