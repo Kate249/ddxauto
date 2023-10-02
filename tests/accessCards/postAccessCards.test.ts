@@ -1,11 +1,7 @@
 
 import { expect, test } from "@playwright/test";
-<<<<<<< Updated upstream:tests/postAccessCards.test.ts
-import api from '../api.json';
-import { log } from "../utils/logger";
-=======
-import AccessCardRequsts from "../../requests/accessCards.requests";
->>>>>>> Stashed changes:tests/accessCards/postAccessCards.test.ts
+import api from '../../api.json';
+import { log } from "../../utils/logger";
 
 const mockData = {
         "session_id": "549297f8-e38a-47cd-915e-2a1859102539",

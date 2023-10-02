@@ -1,9 +1,10 @@
-import { expect, request, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { getBaseParameters } from "../../entities/baseParameters";
 import UsersRequests from "../../requests/users.request";
 import UserRequests from "../../requests/users.request";
 import { getRandomEmail, getRandomPhoneNumber } from "../../utils/random";
 import UserPaymentPlansRequests from "../../requests/userPaymentPlan.request";
+import { getPaymentPlanStartDate } from "../../utils";
 
 test.describe("API-тесты создание подписки клиенту", async () => {
 
@@ -54,9 +55,9 @@ test.describe("API-тесты создание подписки клиенту",
                 request_source: "crm",
                     club_id: clubId,
                     user_id: userId,
-                    start_date: "2023-10-01",
+                    start_date: getPaymentPlanStartDate(),
                     payment_plan_id: 18,
-                    verification_token: "524897e8-b94f-49a6-a945-5dbb5c3df14s"
+                    verification_token: "0453f70a-2abe-4f47-a1de-0ea7d9f382e9"
             }
 
             const paymentPlanResponse = await new UserPaymentPlansRequests(request).postCreateUserPaymentPlans(200, requestBody, userId);
