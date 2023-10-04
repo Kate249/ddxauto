@@ -4,7 +4,7 @@ import UsersRequests from "../../requests/users.request";
 import UserRequests from "../../requests/users.request";
 import { getRandomEmail, getRandomPhoneNumber } from "../../utils/random";
 import UserPaymentPlansRequests from "../../requests/userPaymentPlan.request";
-import { getPaymentPlanStartDate } from "../../utils";
+import { getPaymentPlanStartDate } from '../../utils/getPaymentStartDate';
 
 test.describe("API-тесты создание подписки клиенту", async () => {
 
