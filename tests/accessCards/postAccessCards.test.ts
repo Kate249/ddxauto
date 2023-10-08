@@ -1,7 +1,7 @@
 
 import { expect, test } from "@playwright/test";
-import api from '../api.json';
-import { log } from "../utils/logger";
+import api from '../../api.json';
+import { log } from "../../utils/logger";
 
 const mockData = {
         "session_id": "549297f8-e38a-47cd-915e-2a1859102539",
