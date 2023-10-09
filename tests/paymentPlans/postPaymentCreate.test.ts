@@ -1,18 +1,19 @@
 import { expect, test } from "@playwright/test";
 import { getBaseParameters } from "@entities/baseParameters";
 import PaymentCreateRequests from "@requests/paymentCreate.request";
-import { Statuses } from "libs/statuses";
-import { PaymentProviders } from "libs/paymentProviders";
-import { getRandomEmail, getRandomPhoneNumber } from "../../utils/random";
-import { getPaymentPlanStartDate } from '../../utils/getPaymentStartDate';
+import { Statuses } from "@libs/statuses";
+import { PaymentProviders } from "@libs/paymentProviders";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import { getPaymentPlanStartDate } from '@utils/getPaymentStartDate';
+import UserPaymentPlansRequests from "@requests/userPaymentPlan.request";
 
 test.describe("API-тесты создание оплаты подписки", async () => {
 
-    test("создание подписки клиенту", async ({ request }) => {
+    test("[positive]создание подписки клиенту", async ({ request }) => {
 
         const clubId = await test.step("Получить id клуба", async () => {
             const parameters = { ...await getBaseParameters() };
-            const getClubsResponse = await new PaymentCreateRequests(request).getClubs(Statuses.OK, parameters);
+            const getClubsResponse = await new UserPaymentPlansRequests(request).getClubs(Statuses.OK, parameters);
             const getClubsData = await getClubsResponse.json();
             return getClubsData?.data[0]?.id;
         });
@@ -41,7 +42,7 @@ test.describe("API-тесты создание оплаты подписки", a
                 }
             };
 
-            const { id } = (await (await new PaymentCreateRequests(request).postCreateUser(200, requestBody)).json()).data;
+            const { id } = (await (await new UserPaymentPlansRequests(request).postCreateUser(200, requestBody)).json()).data;
 
             return id;
         });
@@ -57,15 +58,15 @@ test.describe("API-тесты создание оплаты подписки", a
                 payment_plan_id: 18,
                 verification_token: "0453f70a-2abe-4f47-a1de-0ea7d9f382e9"
             }
-            const response = await new PaymentCreateRequests(request).postCreateUserPaymentPlans(200, requestBody, userId);
+            const response = await new UserPaymentPlansRequests(request).postCreateUserPaymentPlans(200, requestBody, userId);
             const responseData = await response.json();
             const userPaymentPlanId = responseData?.data[0]?.id;
 
             return userPaymentPlanId;
-    
+
         });
 
-        const paymentCreateSuccessResponse = await test.step("[positive]Создать оплату подписки", async () => {
+        const paymentCreateSuccessResponse = await test.step("Создать оплату подписки", async () => {
             const requestBody = {
                 session_id: "549297f8-e38a-47cd-915e-2a1859102539",
                 request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
@@ -86,9 +87,68 @@ test.describe("API-тесты создание оплаты подписки", a
             return paymentCreateResponse;
         });
 
-        expect(paymentCreateSuccessResponse.status()).toEqual(Statuses.OK);
+        await test.step("Проверить статус ответа", async () => {
+            expect(paymentCreateSuccessResponse.status()).toEqual(Statuses.OK);
+        });
+    });
 
-        const paymentCreateErrorResponse = await test.step("[negative]Создать оплату подписки", async () => {
+    test("[negative] создание подписки клиенту", async ({ request }) => {
+
+        const clubId = await test.step("Получить id клуба", async () => {
+            const parameters = { ...await getBaseParameters() };
+            const getClubsResponse = await new UserPaymentPlansRequests(request).getClubs(Statuses.OK, parameters);
+            const getClubsData = await getClubsResponse.json();
+            return getClubsData?.data[0]?.id;
+        });
+
+        const userId = await test.step("Получить id клиента", async () => {
+            const requestBody = {
+                session_id: "549297f8-e38a-47cd-915e-2a1859102539",
+                request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
+                request_source: "crm",
+                data: {
+                    email: getRandomEmail(),
+                    phone: getRandomPhoneNumber(),
+                    name: "Тест",
+                    last_name: "Тестович",
+                    middle_name: "Тестов",
+                    sex: "male",
+                    password: "qwerty123",
+                    birthday: "1990-02-02",
+                    lang: "ru",
+                    user_photo_id: 4,
+                    home_club_id: clubId,
+                    club_access: false,
+                    admin_panel_access: false,
+                    class_registration_access: false,
+                    sport_experience: "0-6 месяцев"
+                }
+            };
+
+            const { id } = (await (await new UserPaymentPlansRequests(request).postCreateUser(200, requestBody)).json()).data;
+
+            return id;
+        });
+
+        const userPaymentPlanId = await test.step("Получить id подписки", async () => {
+            const requestBody = {
+                session_id: "549297f8-e38a-47cd-915e-2a1859102539",
+                request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
+                request_source: "crm",
+                club_id: clubId,
+                user_id: userId,
+                start_date: getPaymentPlanStartDate(),
+                payment_plan_id: 18,
+                verification_token: "0453f70a-2abe-4f47-a1de-0ea7d9f382e9"
+            }
+            const response = await new UserPaymentPlansRequests(request).postCreateUserPaymentPlans(200, requestBody, userId);
+            const responseData = await response.json();
+            const userPaymentPlanId = responseData?.data[0]?.id;
+
+            return userPaymentPlanId;
+        });
+
+        const paymentCreateErrorResponse = await test.step("Создать оплату подписки", async () => {
             const requestBody = {
                 session_id: "549297f8-e38a-47cd-915e-2a1859102539",
                 request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
@@ -109,6 +169,8 @@ test.describe("API-тесты создание оплаты подписки", a
             return paymentCreateResponse;
         });
 
-        expect(paymentCreateErrorResponse.status()).toEqual(Statuses.BAD_REQUEST);
+        await test.step("Проверить статус ответа", async () => {
+            expect(paymentCreateErrorResponse.status()).toEqual(Statuses.BAD_REQUEST);
+        });
     });
 });

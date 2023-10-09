@@ -17,7 +17,9 @@
         "emitDecoratorMetadata": true,
         "paths": {
             "@requests/*": ["requests/*"],
-            "@entities/*": ["entities/*"]
+            "@entities/*": ["entities/*"],
+            "@utils/*": ["utils/*"],
+            "@libs/*": ["libs/*"]
         }
     }
 }

@@ -3,7 +3,7 @@ import { getBaseParameters } from "../../entities/baseParameters";
 import UsersRequests from "../../requests/users.request";
 import UserRequests from "../../requests/users.request";
 import VerifyRequest from "../../requests/verify.request";
-import { getRandomEmail, getRandomPhoneNumber } from "../../utils/random";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("API-тесты на отправку кода верификации клиенту", async () => {
 

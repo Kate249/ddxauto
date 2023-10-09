@@ -2,10 +2,10 @@ import { expect, test } from "@playwright/test";
 import { getBaseParameters } from "@entities/baseParameters";
 import UsersRequests from "@requests/users.request";
 import UserRequests from "@requests/users.request";
-import { getRandomEmail, getRandomPhoneNumber } from "../../utils/random";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import UserPaymentPlansRequests from "@requests/userPaymentPlan.request";
-import { getPaymentPlanStartDate } from '../../utils/getPaymentStartDate';
-import { Statuses } from "libs/statuses";
+import { getPaymentPlanStartDate } from '@utils/getPaymentStartDate';
+import { Statuses } from "@libs/statuses";
 
 test.describe("API-тесты создание подписки клиенту", async () => {
 
