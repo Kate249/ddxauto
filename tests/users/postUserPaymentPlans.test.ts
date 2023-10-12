@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { getBaseParameters } from "../../entities/baseParameters";
-import UsersRequests from "../../requests/users.request";
-import UserRequests from "../../requests/users.request";
-import { getRandomEmail, getRandomPhoneNumber } from "../../utils/random";
-import UserPaymentPlansRequests from "../../requests/userPaymentPlan.request";
-import { getPaymentPlanStartDate } from '../../utils/getPaymentStartDate';
+import { getBaseParameters } from "@entities/baseParameters";
+import UsersRequests from "@requests/users.request";
+import UserRequests from "@requests/users.request";
+import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import UserPaymentPlansRequests from "@requests/userPaymentPlan.request";
+import { getPaymentPlanStartDate } from '@utils/getPaymentStartDate';
+import { Statuses } from "@libs/statuses";
 
 test.describe("API-тесты создание подписки клиенту", async () => {
 
@@ -12,7 +13,7 @@ test.describe("API-тесты создание подписки клиенту",
 
         const clubId = await test.step("Получить id клуба", async () => {
             const parameters = { ...await getBaseParameters() };
-            const getClubsResponse = await new UsersRequests(request).getClubs(200, parameters);
+            const getClubsResponse = await new UsersRequests(request).getClubs(Statuses.OK, parameters);
             const getClubsData = await getClubsResponse.json();
             return getClubsData?.data[0]?.id;
         });
