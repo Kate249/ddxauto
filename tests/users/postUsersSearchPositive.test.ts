@@ -14,7 +14,7 @@ type UserCreateResponseData = {
     phone: string;
 };
 
-test.describe.only("API-тесты поиска клиента", async () => {
+test.describe("[positive]API-тесты поиска клиента", async () => {
 
     let clubId: number;
     let userCreateResponseData: UserCreateResponseData;
@@ -54,9 +54,9 @@ test.describe.only("API-тесты поиска клиента", async () => {
                 data: {
                     email: getRandomEmail(),
                     phone: getRandomPhoneNumber(),
-                    name: "Катя1",
-                    last_name: "Тест9",
-                    birthday: "1946-06-21",
+                    name: "Тест1",
+                    last_name: "Тестов1",
+                    birthday: "1999-04-04",
                     middle_name: "Тестов",
                     sex: "male",
                     password: "qwerty123",
@@ -88,7 +88,7 @@ test.describe.only("API-тесты поиска клиента", async () => {
         
     })
 
-    test("[positive]поиск клиента по номеру телефона", async ({ request }) => {
+    test("Поиск клиента по номеру телефона", async ({ request }) => {
 
         const { phone } = userCreateResponseData;
 
@@ -105,7 +105,7 @@ test.describe.only("API-тесты поиска клиента", async () => {
         });
     });
 
-    test("[positive]поиск клиента по имени, фамилии и дате рождения", async ({ request }) => {
+    test("Поиск клиента по имени, фамилии и дате рождения", async ({ request }) => {
         const { name, last_name, birthday } = userCreateResponseData;
 
         const usersSearchResponse1 = await test.step("поиск клиента",
@@ -121,7 +121,7 @@ test.describe.only("API-тесты поиска клиента", async () => {
         });
     });
 
-    test("[positive]поиск клиента по фамилии и email", async ({ request }) => {
+    test("Поиск клиента по фамилии и email", async ({ request }) => {
         const { last_name, email } = userCreateResponseData;
 
         const usersSearchResponse1 = await test.step("поиск клиента",
@@ -137,41 +137,5 @@ test.describe.only("API-тесты поиска клиента", async () => {
         });
     });
 
-    // test("[negative]поиск клиента по номеру телефона", async ({ request }) => {
-    //     const usersSearchResponse1 = await test.step("поиск клиента",
-    //     async () => usersSearchResponse(request, Statuses.OK, { phone: userCreateResponseData?.phone }));
 
-    //     await test.step("Проверить статус ответа", async () => {
-    //         expect(usersSearchResponse1.status()).toEqual(Statuses.OK);
-    //     });
-
-    //     await test.step("Проверить id клиента", async () => {
-    //         const userSearchId = (await usersSearchResponse1.json())?.data[0]?.id
-    //         expect(userSearchId).toEqual(userCreateResponseData?.id);
-    //     });
-    // });
-
-    test("[nagative]поиск клиента по имени, фамилии и дате рождения", async ({ request }) => {
-        const { name, last_name } = userCreateResponseData;
-
-        const usersSearchResponse1 = await test.step("поиск клиента",
-        async () => usersSearchResponse(request, Statuses.BAD_REQUEST, { name, last_name }));
-
-        await test.step("Проверить статус ответа", async () => {
-            expect(usersSearchResponse1.status()).toEqual(Statuses.BAD_REQUEST);
-        });
-
-    });
-
-    test("[negative]поиск клиента по фамилии и email", async ({ request }) => {
-        const { name, last_name } = userCreateResponseData;
-
-        const usersSearchResponse1 = await test.step("поиск клиента",
-        async () => usersSearchResponse(request, Statuses.BAD_REQUEST, { last_name, name }));
-
-        await test.step("Проверить статус ответа", async () => {
-            expect(usersSearchResponse1.status()).toEqual(Statuses.BAD_REQUEST);
-        });
-
-    });
 });
