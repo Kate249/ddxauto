@@ -14,7 +14,7 @@ type UserCreateResponseData = {
     phone: string;
 };
 
-test.describe.only("[positive]API-тесты поиска клиента", async () => {
+test.describe("[positive]API-тесты поиска клиента", async () => {
 
     let clubId: number;
     let userCreateResponseData: UserCreateResponseData;
