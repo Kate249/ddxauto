@@ -14,7 +14,7 @@ type UserCreateResponseData = {
     phone: string;
 };
 
-test.describe("[positive]API-тесты поиска клиента", async () => {
+test.describe.only("[positive]API-тесты поиска клиента", async () => {
 
     let clubId: number;
     let userCreateResponseData: UserCreateResponseData;
@@ -41,11 +41,11 @@ test.describe("[positive]API-тесты поиска клиента", async () =
             const parameters = { ...await getBaseParameters() };
             const getClubsResponse = await new UserPaymentPlansRequests(request).getClubs(Statuses.OK, parameters);
             const getClubsData = await getClubsResponse.json();
-            return getClubsData?.data[0]?.id;
-        });
-    });
+            const clubId = getClubsData?.data[0]?.id;
 
-    test.beforeAll(async ({ request }) => {
+            return clubId;
+        });
+
         userCreateResponseData = await test.step("Получить id клиента", async () => {
             const requestBody = {
                 session_id: "549297f8-e38a-47cd-915e-2a1859102539",
@@ -56,7 +56,7 @@ test.describe("[positive]API-тесты поиска клиента", async () =
                     phone: getRandomPhoneNumber(),
                     name: "Тест1",
                     last_name: "Тестов1",
-                    birthday: "1999-04-04",
+                    birthday: "1999-06-21",
                     middle_name: "Тестов",
                     sex: "male",
                     password: "qwerty123",
@@ -72,7 +72,7 @@ test.describe("[positive]API-тесты поиска клиента", async () =
 
             const postCreateUserResponse = await new UserPaymentPlansRequests(request).postCreateUser(200, requestBody);
             const postCreateUserResponseData = await postCreateUserResponse.json();
-            const { id, name, last_name, email, phone, birthday } = postCreateUserResponseData?.data 
+            const { id, name, last_name, email, phone, birthday } = postCreateUserResponseData?.data
             const userCreateResponseData = {
                 id,
                 name,
@@ -84,23 +84,21 @@ test.describe("[positive]API-тесты поиска клиента", async () =
 
             return userCreateResponseData;
         });
-
-        
-    })
+    });
 
     test("Поиск клиента по номеру телефона", async ({ request }) => {
 
         const { phone } = userCreateResponseData;
 
-        const usersSearchResponse1 = await test.step("поиск клиента",
+        const response = await test.step("поиск клиента",
         async () => usersSearchResponse(request, Statuses.OK, { phone }));
 
         await test.step("Проверить статус ответа", async () => {
-            expect(usersSearchResponse1.status()).toEqual(Statuses.OK);
+            expect(response.status()).toEqual(Statuses.OK);
         });
 
         await test.step("Проверить id клиента", async () => {
-            const userSearchId = (await usersSearchResponse1.json())?.data[0]?.id
+            const userSearchId = (await response.json())?.data[0]?.id
             expect(userSearchId).toEqual(userCreateResponseData?.id);
         });
     });
@@ -108,15 +106,15 @@ test.describe("[positive]API-тесты поиска клиента", async () =
     test("Поиск клиента по имени, фамилии и дате рождения", async ({ request }) => {
         const { name, last_name, birthday } = userCreateResponseData;
 
-        const usersSearchResponse1 = await test.step("поиск клиента",
+        const response = await test.step("поиск клиента",
         async () => usersSearchResponse(request, Statuses.OK, { name, last_name, birthday }));
 
         await test.step("Проверить статус ответа", async () => {
-            expect(usersSearchResponse1.status()).toEqual(Statuses.OK);
+            expect(response.status()).toEqual(Statuses.OK);
         });
 
         await test.step("Проверить id клиента", async () => {
-            const userSearchId = (await usersSearchResponse1.json())?.data[0]?.id
+            const userSearchId = (await response.json())?.data[0]?.id
             expect(userSearchId).toEqual(userCreateResponseData?.id);
         });
     });
@@ -124,15 +122,15 @@ test.describe("[positive]API-тесты поиска клиента", async () =
     test("Поиск клиента по фамилии и email", async ({ request }) => {
         const { last_name, email } = userCreateResponseData;
 
-        const usersSearchResponse1 = await test.step("поиск клиента",
+        const response = await test.step("поиск клиента",
         async () => usersSearchResponse(request, Statuses.OK, { last_name, email }));
 
         await test.step("Проверить статус ответа", async () => {
-            expect(usersSearchResponse1.status()).toEqual(Statuses.OK);
+            expect(response.status()).toEqual(Statuses.OK);
         });
 
         await test.step("Проверить id клиента", async () => {
-            const userSearchId = (await usersSearchResponse1.json())?.data[0]?.id
+            const userSearchId = (await response.json())?.data[0]?.id
             expect(userSearchId).toEqual(userCreateResponseData?.id);
         });
     });
