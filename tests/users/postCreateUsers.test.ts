@@ -1,37 +1,31 @@
-import { expect, test } from "@playwright/test";
+import { expect, request, test } from "@playwright/test";
 import api from '../../api.json';
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
-
-const sport_experiences = [
-    "0-6 месяцев",
-    "Нет опыта",
-    "6-12 месяцев",
-    "1-2 года",
-    "2-3 года",
-    "3-5 лет",
-    "Больше 5 лет",
-];
+import { RequestSource } from "@libs/requestSource";
+import { SportExperience } from "@libs/sportExperience";
+import userTestData from "@data/user.json";
+import requestTestData from "@data/request.json";
 
 const mockData = {
-    session_id: "549297f8-e38a-47cd-915e-2a1859102539",
-    request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
-    request_source: "crm",
+    session_id: requestTestData.sessionId,
+    request_id: requestTestData.requestId,
+    request_source: RequestSource.CRM,
     data: {
         email: '',
         phone: '',
-        name: "Тест",
-        last_name: "Тестович",
-        middle_name: "Тестов",
-        sex: "male",
-        password: "qwerty123",
-        birthday: "1990-02-02",
-        lang: "ru",
-        user_photo_id: 4,
+        name: userTestData.firstName,
+        last_name: userTestData.lastName,
+        middle_name: userTestData.middleName,
+        sex: userTestData.sex.male,
+        password: userTestData.password,
+        birthday: userTestData.birthday,
+        lang: userTestData.lang,
+        user_photo_id: userTestData.userPhotoId,
         home_club_id: 1,
         club_access: false,
         admin_panel_access: false,
         class_registration_access: false,
-        sport_experience: "0-6 месяцев"
+        sport_experience: SportExperience.ZERO_SIX_MONTHS
     }
 };
 
@@ -47,15 +41,26 @@ test.describe("API-тесты на создание клиентов", async () 
         mockData.data.phone = getRandomPhoneNumber();
     });
 
-    sport_experiences.forEach(sport_experience => {
+    Object.values(SportExperience).forEach(sport_experience => {
         test(`[positive] создать клиента c опытом ${sport_experience}`, async ({ request }) => {
 
-            const response = await request.post(url, { headers, data: mockData });
-    
+            const { data, ...otherMockDataFields } = mockData;
+
+            const response = await request.post(url, {
+                headers,
+                data: {
+                    ...otherMockDataFields,
+                    data: {
+                        ...data,
+                        sport_experience
+                    }
+                }
+            });
+
             expect(response.status()).toEqual(200);
         });
     });
-    
+
 
     test("[positive] создать клиента без пароля", async ({ request }) => {
         const { data: { password, ...dataWithoutPassword } } = mockData;
