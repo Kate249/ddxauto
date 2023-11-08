@@ -1,7 +1,7 @@
 import { APIRequestContext, expect, test } from "@playwright/test";
 import { getBaseParameters } from "@entities/baseParameters";
 import { Statuses } from "@libs/statuses";
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import { getRandomEmail, getRandomPhoneNumber, getRandomTestName } from "@utils/random";
 import UserPaymentPlansRequests from "@requests/userPaymentPlan.request";
 import UsersSearchRequests from "@requests/usersSearch.request";
 import { RequestSource } from "@libs/requestSource";
@@ -58,7 +58,7 @@ test.describe("[positive]API-тесты поиска клиента", async () =
                 data: {
                     email: getRandomEmail(),
                     phone: getRandomPhoneNumber(),
-                    name: userTestData.firstName,
+                    name: getRandomTestName(),
                     last_name: userTestData.lastName,
                     birthday: userTestData.birthday,
                     middle_name: userTestData.middleName,
