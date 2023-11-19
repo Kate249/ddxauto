@@ -1,9 +1,13 @@
 import { APIRequestContext, expect, test } from "@playwright/test";
 import { getBaseParameters } from "@entities/baseParameters";
 import { Statuses } from "@libs/statuses";
-import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
+import { getRandomEmail, getRandomPhoneNumber, getRandomTestName } from "@utils/random";
 import UserPaymentPlansRequests from "@requests/userPaymentPlan.request";
 import UsersSearchRequests from "@requests/usersSearch.request";
+import { RequestSource } from "@libs/requestSource";
+import { SportExperience } from "@libs/sportExperience";
+import userTestData from "@data/user.json";
+import requestTestData from "@data/request.json";
 
 type UserCreateResponseData = {
     id: number;
@@ -25,9 +29,9 @@ test.describe("[positive]API-тесты поиска клиента", async () =
         userCreateResponseData: Partial<UserCreateResponseData>,
     ) => {
         const requestBody = {
-            session_id: "549297f8-e38a-47cd-915e-2a1859102539",
-            request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
-            request_source: "crm",
+            session_id: requestTestData.sessionId,
+            request_id: requestTestData.requestId,
+            request_source: RequestSource.CRM,
             data: {...userCreateResponseData}
         };
 
@@ -48,25 +52,25 @@ test.describe("[positive]API-тесты поиска клиента", async () =
 
         userCreateResponseData = await test.step("Получить id клиента", async () => {
             const requestBody = {
-                session_id: "549297f8-e38a-47cd-915e-2a1859102539",
-                request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
-                request_source: "crm",
+                session_id: requestTestData.sessionId,
+                request_id: requestTestData.requestId,
+                request_source: RequestSource.CRM,
                 data: {
                     email: getRandomEmail(),
                     phone: getRandomPhoneNumber(),
-                    name: "Тест1",
-                    last_name: "Тестов1",
-                    birthday: "1999-06-21",
-                    middle_name: "Тестов",
-                    sex: "male",
-                    password: "qwerty123",
-                    lang: "ru",
-                    user_photo_id: 4,
+                    name: getRandomTestName(),
+                    last_name: userTestData.lastName,
+                    birthday: userTestData.birthday,
+                    middle_name: userTestData.middleName,
+                    sex: userTestData.sex.male,
+                    password: userTestData.password,
+                    lang: userTestData.lang,
+                    user_photo_id: userTestData.userPhotoId,
                     home_club_id: clubId,
                     club_access: false,
                     admin_panel_access: false,
                     class_registration_access: false,
-                    sport_experience: "0-6 месяцев"
+                    sport_experience: SportExperience.ZERO_SIX_MONTHS
                 }
             };
 

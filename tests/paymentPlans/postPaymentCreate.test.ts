@@ -30,7 +30,7 @@ test.describe("API-тесты создание оплаты подписки", a
             user_id: userId,
             currency: "RUB",
             payment_service_id: 2,
-            employee_id: 1,
+            employee_id: 31,
             fiscal_method: "OrangeData",
         };
 
@@ -160,7 +160,7 @@ test.describe("API-тесты создание оплаты подписки", a
         });
 
         await test.step("Проверить сообщение об ошибке", async () => {
-            expect((await paymentCreateErrorResponse.json()).error.message).toEqual("'provider_id' required");
+            expect((await paymentCreateErrorResponse.json()).error.message).toEqual("not payment provider");
         });
     });
 });

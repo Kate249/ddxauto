@@ -1,0 +1,13 @@
+{
+    "firstName": "Тест",
+    "lastName": "Тестович",
+    "middleName": "Тестов",
+    "birthday": "1990-04-04",
+    "sex": {
+        "male": "male",
+        "famale": "famale"
+    },
+    "password": "qwerty123",
+    "userPhotoId": 4,
+    "lang": "ru"
+}
