@@ -8,6 +8,7 @@ import { RequestSource } from "@libs/requestSource";
 import { SportExperience } from "@libs/sportExperience";
 import userTestData from "@data/user.json";
 import requestTestData from "@data/request.json";
+import { getUserRequestJson } from "@entities/userRequest";
 
 type UserCreateResponseData = {
     id: number;
@@ -18,7 +19,7 @@ type UserCreateResponseData = {
     phone: string;
 };
 
-test.describe("[positive]API-тесты поиска клиента", async () => {
+test.describe.only("[positive]API-тесты поиска клиента", async () => {
 
     let clubId: number;
     let userCreateResponseData: UserCreateResponseData;
@@ -51,28 +52,7 @@ test.describe("[positive]API-тесты поиска клиента", async () =
         });
 
         userCreateResponseData = await test.step("Получить id клиента", async () => {
-            const requestBody = {
-                session_id: requestTestData.sessionId,
-                request_id: requestTestData.requestId,
-                request_source: RequestSource.CRM,
-                data: {
-                    email: getRandomEmail(),
-                    phone: getRandomPhoneNumber(),
-                    name: getRandomTestName(),
-                    last_name: userTestData.lastName,
-                    birthday: userTestData.birthday,
-                    middle_name: userTestData.middleName,
-                    sex: userTestData.sex.male,
-                    password: userTestData.password,
-                    lang: userTestData.lang,
-                    user_photo_id: userTestData.userPhotoId,
-                    home_club_id: clubId,
-                    club_access: false,
-                    admin_panel_access: false,
-                    class_registration_access: false,
-                    sport_experience: SportExperience.ZERO_SIX_MONTHS
-                }
-            };
+            const requestBody = await getUserRequestJson(clubId, getRandomEmail(), getRandomPhoneNumber());
 
             const postCreateUserResponse = await new UserPaymentPlansRequests(request).postCreateUser(200, requestBody);
             const postCreateUserResponseData = await postCreateUserResponse.json();
