@@ -8,7 +8,7 @@ import { getPaymentPlanStartDate } from '@utils/getPaymentStartDate';
 import { Statuses } from "@libs/statuses";
 import { getUserRequestJson } from "@entities/userRequest";
 
-test.describe.only("API-тесты создание подписки клиенту", async () => {
+test.describe("API-тесты создание подписки клиенту", async () => {
 
     test("[positive] создание подписки клиенту", async ({ request }) => {
 
