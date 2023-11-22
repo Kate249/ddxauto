@@ -21,17 +21,6 @@ test.describe("API-тесты на создание клиентов", async () 
     Object.values(SportExperience).forEach(sport_experience => {
         test(`[positive] создать клиента c опытом ${sport_experience}`, async ({ request }) => {
 
-            //    (requestData as unknown as UserDataRequestJson).sport_experience = sport_experience;
-
-            //     const response = await request.post(url, {
-            //         headers,
-            //         // data: requestData
-            //         data: {
-            //             ...other,
-            //             sport_experience
-            //         }
-            //     });
-
             const { data, ...otherRequestDataFields } = requestData;
 
             const currentRequestData = {
