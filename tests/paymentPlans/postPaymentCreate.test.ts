@@ -6,6 +6,7 @@ import { PaymentProviders } from "@libs/paymentProviders";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { getPaymentPlanStartDate } from '@utils/getPaymentStartDate';
 import UserPaymentPlansRequests from "@requests/userPaymentPlan.request";
+import { getPaymentPlanRequestJson } from "@entities/paymentPlanRequest";
 
 
 test.describe("API-тесты создание оплаты подписки", async () => {
@@ -93,16 +94,8 @@ test.describe("API-тесты создание оплаты подписки", a
         });
 
         userPaymentPlanId = await test.step("Получить id подписки", async () => {
-            const requestBody = {
-                session_id: "549297f8-e38a-47cd-915e-2a1859102539",
-                request_id: "4b5b7836-dce6-4b5e-9f18-76be91bd7d37",
-                request_source: "crm",
-                club_id: clubId,
-                user_id: userId,
-                start_date: getPaymentPlanStartDate(),
-                payment_plan_id: 18,
-                verification_token: "0453f70a-2abe-4f47-a1de-0ea7d9f382e9"
-            }
+            const requestBody = await getPaymentPlanRequestJson(clubId, userId)
+            
             const response = await new UserPaymentPlansRequests(request).postCreateUserPaymentPlans(200, requestBody, userId);
             const responseData = await response.json();
             const userPaymentPlanId = responseData?.data[0]?.id;
