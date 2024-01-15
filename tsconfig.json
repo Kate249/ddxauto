@@ -20,7 +20,7 @@
             "@entities/*": ["entities/*"],
             "@utils/*": ["utils/*"],
             "@libs/*": ["libs/*"],
-            "@data/*": ["data/*"]
+            "@data/*": ["data/*"],
         }
     }
 }

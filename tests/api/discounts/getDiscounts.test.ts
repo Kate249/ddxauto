@@ -1,7 +1,7 @@
 
 import { expect, test } from "@playwright/test";
 import DiscountsRequest from "@requests/discounts.requests";
-import { getBaseParameters } from "../../entities/baseParameters";
+import { getBaseParameters } from "@entities/baseParameters";
 import { Statuses } from "@libs/statuses";
 
 test.describe("API-тесты на получение списка акций", async () => {

@@ -1,6 +1,6 @@
 
 import { expect, test } from "@playwright/test";
-import { getBaseParameters } from "../../entities/baseParameters";
+import { getBaseParameters } from "@entities/baseParameters";
 import { Statuses } from "@libs/statuses";
 import ProductsRequest from "@requests/products.request";
 

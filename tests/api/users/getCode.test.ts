@@ -1,8 +1,8 @@
 import { expect, request, test } from "@playwright/test";
-import { getBaseParameters } from "../../entities/baseParameters";
-import UsersRequests from "../../requests/users.request";
-import UserRequests from "../../requests/users.request";
-import VerifyRequest from "../../requests/verify.request";
+import { getBaseParameters } from "@entities/baseParameters";
+import UsersRequests from "@requests/users.request";
+import UserRequests from "@requests/users.request";
+import VerifyRequest from "@requests/verify.request";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { getUserRequestJson } from "@entities/userRequest";
 

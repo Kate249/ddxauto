@@ -1,7 +1,7 @@
 
 import { expect, test } from "@playwright/test";
-import AccessCardRequests from "../../requests/accessCards.requests";
-import { getBaseParameters } from "../../entities/baseParameters";
+import { getBaseParameters } from "@entities/baseParameters";
+import AccessCardRequests from "@requests/accessCards.requests";
 
 const mockData = {
     "session_id": "549297f8-e38a-47cd-915e-2a1859102539",
