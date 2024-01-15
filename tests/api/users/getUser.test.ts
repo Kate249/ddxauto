@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { getBaseParameters } from "../../entities/baseParameters";
-import UsersRequests from "../../requests/users.request";
+import { getBaseParameters } from "@entities/baseParameters";
+import UsersRequests from "@requests/users.request";
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 
 test.describe("API-тесты на получение информации о пользователе", async () => {
