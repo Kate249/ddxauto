@@ -1,6 +1,6 @@
 
 import { expect, test } from "@playwright/test";
-import api from '../../api.json';
+import api from '../../../api.json';
 import { log } from "@utils/logger";
 
 const mockData = {

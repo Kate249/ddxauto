@@ -1,5 +1,5 @@
 import { expect, request, test } from "@playwright/test";
-import api from '../../api.json';
+import api from '../../../api.json';
 import { getRandomEmail, getRandomPhoneNumber } from "@utils/random";
 import { SportExperience } from "@libs/sportExperience";
 import { BaseRequestJson } from "@entities/baseRequestJson";
